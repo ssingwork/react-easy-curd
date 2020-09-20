@@ -1,31 +1,22 @@
 import React from "react"
 import PropTypes from "prop-types"
 import CartItemList from "../components/CartItemList";
-import { connect } from "react-redux";
+import { useSelector,useDispatch,shallowEqual } from "react-redux";
 import {addItemCart} from "../actions";
 
-class CartContainer extends React.Component {
+export const  CartContainer = () => {
 
-    constructor(props){
-        super(props);
-    }
 
-    render () {
-        const {dispatch} = this.props;
+    const cartList = useSelector(state => state.cartData.cartList,shallowEqual);
+    const dispatch = useDispatch();
 
-        return (<div>
-            Cart Item
-            <CartItemList cartList = {this.props.cartList} ></CartItemList>
-            <button onClick={e => {dispatch(addItemCart("Orange"))} }>Add New</button>
-        </div>)
-    }
+    return (<div>
+        Cart Item
+        <CartItemList cartList = {cartList} ></CartItemList>
+        <button onClick={() => dispatch(addItemCart("Orange"))}>Add New</button>
+    </div>)
+
 }
 
-CartContainer.propTypes = {
-}
 
-const mapStateToProps = state => ({
-    cartList : state.cartData.cartList
-})
-
-export default connect(mapStateToProps)(CartContainer)
+export default CartContainer;
